@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -28,6 +29,7 @@ class Blog(models.Model):
     description = models.TextField('Описание', blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
     authors = models.ManyToManyField(Author)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

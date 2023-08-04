@@ -3,8 +3,9 @@ from .models import Blog, Author
 
 
 class BlogSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     authors = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), many=True)
 
     class Meta:
         model = Blog
-        fields = ('title', 'description', 'category', 'authors')
+        fields = '__all__'
