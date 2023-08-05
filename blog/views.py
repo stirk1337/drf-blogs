@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
@@ -48,10 +49,17 @@ from .serializers import BlogSerializer
 #     serializer_class = BlogSerializer
 
 
+class BlogAPIListPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class BlogAPIList(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = BlogAPIListPagination
 
 
 class BlogAPIUpdate(generics.RetrieveUpdateAPIView):
